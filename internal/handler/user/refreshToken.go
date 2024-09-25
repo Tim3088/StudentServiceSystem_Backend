@@ -1,7 +1,10 @@
 package user
 
-import "github.com/gin-gonic/gin"
+import (
+	"StudentServiceSystem/pkg/utils"
+	"github.com/gin-gonic/gin"
+)
 
 func RefreshToken(c *gin.Context) {
-	// TODO
+	utils.RefreshTokenHandler(c)
 }

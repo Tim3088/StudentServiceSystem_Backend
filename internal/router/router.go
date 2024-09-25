@@ -17,7 +17,7 @@ func Init(r *gin.Engine) {
 			userGroup.GET("/refresh", user.RefreshToken)
 			userGroup.POST("/reg", user.Register)
 			userGroup.POST("/login", user.Login)
-			userGroup.PUT("/:username", user.UpdateUser)
+			userGroup.PUT("/:username", user.UpdateUser).Use(middleware.JwtAuthMiddleware())
 		}
 		studentGroup := apiGroup.Group("/student")
 		{

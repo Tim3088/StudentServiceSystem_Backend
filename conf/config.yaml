@@ -1,0 +1,13 @@
+mysql:
+  host: localhost
+  port: 3306
+  user: root
+  pass: "123456"
+  dbname: student_service_system
+redis:
+  host: localhost
+  port: 6379
+  pass: "123456"
+  db: 0
+jwt:
+  pass: "4b8e2f3a5d6c7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2"
