@@ -1,6 +1,7 @@
 package user
 
 import (
+	"StudentServiceSystem/internal/service"
 	"StudentServiceSystem/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
