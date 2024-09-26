@@ -7,7 +7,7 @@ import (
 
 var Rdb *redis.Client
 
-func init() {
+func Init() {
 	pass := global.Config.GetString("redis.pass")
 	host := global.Config.GetString("redis.host")
 	port := global.Config.GetString("redis.port")

@@ -1,6 +1,7 @@
 package model
 
 import (
+	"encoding/json"
 	"gorm.io/gorm"
 	"time"
 )
@@ -10,12 +11,29 @@ type Feedback struct {
 	UserID     int       `json:"user_id"`
 	Title      string    `json:"title"`
 	Time       time.Time `json:"time"`
-	Category   string    `json:"category"`
+	Category   int       `json:"category"`
 	IsUrgent   bool      `json:"is_urgent"`
 	Name       string    `json:"name"`
 	Content    string    `json:"content"`
-	Images     string    `json:"images"`
+	Images     string    `json:"images"` // 修改为 string 类型
 	Reply      string    `json:"reply"`
 	Evaluation string    `json:"evaluation"`
 	DeletedAt  gorm.DeletedAt
+}
+
+// 将 Images 字段序列化为 JSON 字符串
+func (f *Feedback) SetImages(images []string) error {
+	data, err := json.Marshal(images)
+	if err != nil {
+		return err
+	}
+	f.Images = string(data)
+	return nil
+}
+
+// 将 JSON 字符串反序列化为 []string
+func (f *Feedback) GetImages() ([]string, error) {
+	var images []string
+	err := json.Unmarshal([]byte(f.Images), &images)
+	return images, err
 }
