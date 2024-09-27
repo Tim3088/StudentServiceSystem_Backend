@@ -36,9 +36,5 @@ func Login(c *gin.Context) {
 		"access_token":  tokenString,
 		"refresh_token": refreshTokenString,
 		"user_type":     user.UserType,
-		"contact_info": gin.H{
-			"email": user.Email,
-			"phone": user.Phone,
-		},
 	})
 }
