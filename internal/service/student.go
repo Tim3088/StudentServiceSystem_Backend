@@ -9,13 +9,13 @@ import (
 )
 
 func CreateFeedback(userID int, title string, category int, isUrgent bool, name string, content string, images []*multipart.FileHeader, time time.Time) error {
-    // 上传图片并获取 URL 列表
+    // 上传图片并获取文件名列表
     imageURLs, err := minIO.UploadFile(images)
     if err != nil {
         return err
     }
 
-    // 将 URL 列表序列化为 JSON 字符串
+    // 将文件名列表序列化为 JSON 字符串
     imageURLsJSON, err := json.Marshal(imageURLs)
     if err != nil {
         return err

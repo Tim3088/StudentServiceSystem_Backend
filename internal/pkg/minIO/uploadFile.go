@@ -4,27 +4,12 @@ import (
 	"StudentServiceSystem/internal/global"
 	"context"
 	"mime/multipart"
-	"net/url"
 	"path/filepath"
-	"time"
 
 	"github.com/minio/minio-go/v7"
 	"go.uber.org/zap"
 )
-func getFile(objectName string) (string, error) {
-    ctx := context.Background()
-    bucketName := global.Config.GetString("minio.bucketName")
 
-    // 设置过期时间为1小时
-    reqParams := url.Values{}
-    presignedURL, err := MI.PresignedGetObject(ctx, bucketName, objectName, time.Hour, reqParams)
-    if err != nil {
-        zap.L().Error("Failed to generate presigned URL.", zap.Error(err))
-        return "", err
-    }
-
-    return presignedURL.String(), nil
-}
 func UploadFile(images []*multipart.FileHeader) ([]string, error) {
 	ctx := context.Background()
 	bucketName := global.Config.GetString("minio.bucketName")
@@ -48,13 +33,8 @@ func UploadFile(images []*multipart.FileHeader) ([]string, error) {
 			return nil, err
 		}
 
-		// 构建文件 URL
-		fileURL,err := getFile(objectName)
-		if err != nil {
-			zap.L().Error("Failed to get file URL.", zap.Error(err))
-			return nil, err
-		}
-		uploadedFiles = append(uploadedFiles, fileURL)
+		// 将文件名添加到上传文件列表
+		uploadedFiles = append(uploadedFiles, objectName)
 	}
 
 	return uploadedFiles, nil
