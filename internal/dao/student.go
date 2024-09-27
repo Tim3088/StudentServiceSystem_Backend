@@ -50,3 +50,7 @@ func (d *Dao) GetFeedbacks(ctx context.Context, userID int) ([]map[string]interf
 	}
 	return res, nil
 }
+
+func (d *Dao) EvaluateFeedback(ctx context.Context, feedbackID int, evaluation string) error {
+	return d.orm.WithContext(ctx).Model(&model.Feedback{}).Where("id = ?", feedbackID).Update("evaluation", evaluation).Error
+}

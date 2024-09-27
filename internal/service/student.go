@@ -37,3 +37,8 @@ func CreateFeedback(userID int, title string, category int, isUrgent bool, name 
 func GetFeedbacks(userID int) ([]map[string]interface{}, error) {
     return d.GetFeedbacks(ctx,userID)
 }
+
+
+func EvaluateFeedback(feedbackID int, evaluation string) error {
+    return d.EvaluateFeedback(ctx,feedbackID,evaluation)
+}
