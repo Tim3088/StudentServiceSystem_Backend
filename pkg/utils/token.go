@@ -20,6 +20,10 @@ const RefreshTokenExpireDuration = time.Hour * 24 * 7 // 刷新令牌有效期7�
 func GenerateTokens(userID int) (string, string, error) {
 	// 生成访问令牌
 	accessTokenString, err := generateAccessToken(userID)
+	if err != nil {
+		zap.L().Error("生成访问令牌失败", zap.Error(err))
+		return "", "", err
+	}
 	// 生成刷新令牌
 	refreshClaims := model.MyClaims{
 		UserID:    userID,
@@ -123,13 +127,6 @@ func RefreshTokenHandler(c *gin.Context) {
 		JsonFail(c, 200509, "无效的刷新令牌")
 	}
 
-	// 删除旧的刷新令牌
-	ctx := context.Background()
-	err = redis.Rdb.Del(ctx, "refresh_token:"+data.RefreshToken).Err()
-	if err != nil {
-		zap.L().Error("删除旧的刷新令牌失败", zap.Error(err))
-	}
-
 	// 生成新的访问令牌
 	newToken, err := generateAccessToken(claims.UserID)
 	if err != nil {
@@ -137,7 +134,7 @@ func RefreshTokenHandler(c *gin.Context) {
 	}
 
 	// 将新的访问令牌存储到Redis
-	err = redis.Rdb.Set(ctx, "access_token:"+newToken, claims.UserID, AccessTokenExpireDuration).Err()
+	err = redis.Rdb.Set(c, "access_token:"+newToken, claims.UserID, AccessTokenExpireDuration).Err()
 	if err != nil {
 		zap.L().Error("新的刷新令牌存储失败", zap.Error(err))
 	}
