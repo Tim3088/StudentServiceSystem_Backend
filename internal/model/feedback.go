@@ -2,7 +2,6 @@ package model
 
 import (
 	"encoding/json"
-	"gorm.io/gorm"
 	"time"
 )
 
@@ -18,7 +17,6 @@ type Feedback struct {
 	Images     string    `json:"images"` // 修改为 string 类型
 	Reply      string    `json:"reply"`
 	Evaluation string    `json:"evaluation"`
-	DeletedAt  gorm.DeletedAt
 }
 
 // 将 Images 字段序列化为 JSON 字符串
