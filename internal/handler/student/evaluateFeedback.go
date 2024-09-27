@@ -5,6 +5,7 @@ import (
 	"StudentServiceSystem/pkg/utils"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type EvaluateFeedbackData struct {
@@ -20,7 +21,7 @@ func EvaluateFeedback(c *gin.Context) {
 	}
 	err := service.EvaluateFeedback(data.FeedbackID, data.Evaluation)
 	if err != nil {
-		utils.JsonFail(c, 200506, "评价失败")
+		zap.L().Error("评价反馈失败", zap.Error(err))
 		return
 	}
 	utils.JsonSuccess(c, nil)
