@@ -42,3 +42,8 @@ func GetFeedbacks(userID int) ([]map[string]interface{}, error) {
 func EvaluateFeedback(feedbackID int, evaluation string) error {
     return d.EvaluateFeedback(ctx,feedbackID,evaluation)
 }
+
+func GetStudentInfo(userID int) (model.User, error) {
+    
+    return d.GetStudentInfo(ctx,userID)
+}

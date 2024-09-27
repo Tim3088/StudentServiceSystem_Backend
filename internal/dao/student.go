@@ -54,3 +54,12 @@ func (d *Dao) GetFeedbacks(ctx context.Context, userID int) ([]map[string]interf
 func (d *Dao) EvaluateFeedback(ctx context.Context, feedbackID int, evaluation string) error {
 	return d.orm.WithContext(ctx).Model(&model.Feedback{}).Where("id = ?", feedbackID).Update("evaluation", evaluation).Error
 }
+
+func (d *Dao) GetStudentInfo(ctx context.Context, userID int) (model.User, error) {
+	var user model.User
+	err := d.orm.WithContext(ctx).Where("id = ?", userID).First(&user).Error
+	if err != nil {
+		return model.User{}, err
+	}
+	return user, nil
+}

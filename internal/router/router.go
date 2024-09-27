@@ -5,6 +5,7 @@ import (
 	"StudentServiceSystem/internal/handler/student"
 	"StudentServiceSystem/internal/handler/user"
 	"StudentServiceSystem/internal/middleware"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,12 +22,15 @@ func Init(r *gin.Engine) {
 		}
 		studentGroup := apiGroup.Group("/student")
 		{
-			studentGroup.GET("", student.GetStudentInfo)
 			feedbackGroup := studentGroup.Group("/feedback").Use(middleware.JwtAuthMiddleware())
 			{
 				feedbackGroup.GET("", student.GetFeedbacks)
 				feedbackGroup.POST("", student.CreateFeedback)
 				feedbackGroup.PUT("", student.EvaluateFeedback)
+			}
+			infoGroup := studentGroup.Group("/info").Use(middleware.JwtAuthMiddleware())
+			{
+				infoGroup.GET("", student.GetStudentInfo)
 			}
 		}
 		adminGroup := apiGroup.Group("/admin")
