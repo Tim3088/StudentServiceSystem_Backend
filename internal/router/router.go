@@ -24,7 +24,7 @@ func Init(r *gin.Engine) {
 			studentGroup.GET("", student.GetStudentInfo)
 			feedbackGroup := studentGroup.Group("/feedback").Use(middleware.JwtAuthMiddleware())
 			{
-				feedbackGroup.GET("", student.GetFeedback)
+				feedbackGroup.GET("", student.GetFeedbacks)
 				feedbackGroup.POST("", student.CreateFeedback)
 				feedbackGroup.PUT("", student.EvaluateFeedback)
 			}

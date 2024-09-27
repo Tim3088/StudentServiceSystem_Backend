@@ -1,7 +1,24 @@
 package student
 
-import "github.com/gin-gonic/gin"
+import (
+	"StudentServiceSystem/internal/service"
+	"StudentServiceSystem/pkg/utils"
 
-func GetFeedback(c *gin.Context) {
-	// TODO
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+)
+
+func GetFeedbacks(c *gin.Context) {
+	feedbackList, err := service.GetFeedbacks(c.GetInt("user_id"))
+	if err != nil {
+		zap.L().Error("获取反馈记录失败", zap.Error(err))
+		return
+	}
+	if feedbackList == nil {
+		utils.JsonFail(c, 200511, "当前无反馈记录")
+		return
+	}
+	utils.JsonSuccess(c, gin.H{
+		"feedback_list": feedbackList,
+	})
 }

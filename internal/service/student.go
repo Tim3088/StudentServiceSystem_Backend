@@ -33,3 +33,7 @@ func CreateFeedback(userID int, title string, category int, isUrgent bool, name 
         Images:   string(imageURLsJSON), // 存储 JSON 字符串
     })
 }
+
+func GetFeedbacks(userID int) ([]map[string]interface{}, error) {
+    return d.GetFeedbacks(ctx,userID)
+}
