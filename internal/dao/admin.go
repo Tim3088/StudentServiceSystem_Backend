@@ -18,3 +18,13 @@ func (d *Dao) GetAdminInfo(ctx context.Context,userID int) (model.User, error) {
 	}
 	return user, nil
 }
+
+func (d *Dao) Update(ctx context.Context, username string, name string, userType int, newUsername string, password string) {
+    // 使用 Updates 方法一次性更新多个字段
+    d.orm.WithContext(ctx).Model(&model.User{}).Where("username = ?", username).Updates(map[string]interface{}{
+        "username":  newUsername,
+        "name":      name,
+        "user_type": userType,
+        "password":  password,
+    })
+}
