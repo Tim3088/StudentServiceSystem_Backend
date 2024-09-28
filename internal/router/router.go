@@ -35,7 +35,10 @@ func Init(r *gin.Engine) {
 		}
 		adminGroup := apiGroup.Group("/admin")
 		{
-			adminGroup.GET("", admin.GetAdminInfo)
+			infoGroup := adminGroup.Group("/info").Use(middleware.JwtAuthMiddleware())
+			{
+				infoGroup.GET("", admin.GetAdminInfo)
+			}
 			feedbackGroup := adminGroup.Group("/feedback").Use(middleware.JwtAuthMiddleware())
 			{
 				feedbackGroup.GET("", admin.GetFeedbacks)
