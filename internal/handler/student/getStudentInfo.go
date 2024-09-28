@@ -14,6 +14,10 @@ func GetStudentInfo(c *gin.Context) {
 		zap.L().Error("获取学生信息失败", zap.Error(err))
 		return
 	}
+	if studentInfo.UserType != 1 {
+		utils.JsonFail(c, 200511, "当前用户不是学生")
+		return
+	}
 	utils.JsonSuccess(c, gin.H{
 		"username": studentInfo.Username,
 		"name":     studentInfo.Name,
