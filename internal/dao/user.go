@@ -18,3 +18,7 @@ func (d *Dao) UpdateUser(ctx context.Context, username string, email string, pho
 		"password": password,
 	}).Error
 }
+
+func (d *Dao) CreateUser(ctx context.Context, user *model.User) error {
+	return d.orm.WithContext(ctx).Create(user).Error
+}

@@ -8,3 +8,14 @@ func GetUserByUsername(userName string) (*model.User, error) {
 func UpdateUser(username string, email string, phone string, password string) {
 	d.UpdateUser(ctx, username, email, phone, password)
 }
+
+func Register(username string, name string, password string, usertype int, email string, phone string) error {
+	return d.CreateUser(ctx, &model.User{
+		Username: username,
+		Name:     name,
+		Password: password,
+		UserType: usertype,
+		Email:    email,
+		Phone:    phone,
+	})
+}
