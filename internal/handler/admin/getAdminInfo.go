@@ -8,14 +8,13 @@ import (
 	"go.uber.org/zap"
 )
 
-
 func GetAdminInfo(c *gin.Context) {
 	info, err := service.GetAdminInfo(c.GetInt("user_id"))
 	if err != nil {
 		zap.L().Error("获取管理员信息失败", zap.Error(err))
 		return
 	}
-	if info.UserType != 2 {
+	if info.UserType != 2 && info.UserType != 3 {
 		utils.JsonFail(c, 200511, "当前用户不是管理员")
 		return
 	}
