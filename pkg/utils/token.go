@@ -119,24 +119,28 @@ func RefreshTokenHandler(c *gin.Context) {
 	})
 	if err != nil || !token.Valid {
 		JsonFail(c, 200509, "无效的刷新令牌")
+		return
 	}
 
 	// 验证刷新令牌的有效性
 	claims, ok := token.Claims.(*model.MyClaims)
 	if !ok || claims.ExpiresAt.Time.Before(time.Now()) || claims.TokenType != "refresh" {
 		JsonFail(c, 200509, "无效的刷新令牌")
+		return
 	}
 
 	// 生成新的访问令牌
 	newToken, err := generateAccessToken(claims.UserID)
 	if err != nil {
 		zap.L().Error("生成新的刷新令牌失败", zap.Error(err))
+		return
 	}
 
 	// 将新的访问令牌存储到Redis
 	err = redis.Rdb.Set(c, "access_token:"+newToken, claims.UserID, AccessTokenExpireDuration).Err()
 	if err != nil {
 		zap.L().Error("新的刷新令牌存储失败", zap.Error(err))
+		return 
 	}
 
 	JsonSuccess(c, gin.H{
