@@ -12,6 +12,15 @@ type AcceptFeedbackRequest struct {
 	FeedbackID int `json:"id" binding:"required"`
 }
 func AcceptFeedback(c *gin.Context) {
+	infoma, err := service.GetUserByUserID(c.GetInt("user_id"))
+	if err != nil {
+		zap.L().Error("获取管理员信息失败", zap.Error(err))
+		return
+	}
+	if infoma.UserType != 2 && infoma.UserType != 3 {
+		utils.JsonFail(c, 200512, "当前用户不是管理员")
+		return
+	}
 	var data AcceptFeedbackRequest
 	if err := c.ShouldBindJSON(&data); err != nil {
 		utils.JsonFail(c, 200501, "参数错误")
