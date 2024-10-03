@@ -29,3 +29,7 @@ func FindFeedback(feedbackID int) (model.Feedback,error) {
 func AcceptFeedback(feedbackID int, userID int) error {
 	return d.AcceptFeedback(ctx, feedbackID, userID)
 }
+
+func GetFeedbacks_() ([]map[string]interface{}, error) {
+	return d.GetFeedbacks_(ctx)
+}
