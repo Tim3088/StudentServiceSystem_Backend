@@ -28,3 +28,24 @@ func (d *Dao) Update(ctx context.Context, username string, name string, userType
         "password":  password,
     })
 }
+func (d *Dao) MarkFeedback(ctx context.Context,feedbackID int) error {
+	return d.orm.Model(&model.ReportFeedback{}).Create(&model.ReportFeedback{FeedbackID: feedbackID}).Error
+}
+
+func (d *Dao) FindReportFeedback(ctx context.Context,feedbackID int) error {
+	var reportFeedback model.ReportFeedback
+	err := d.orm.WithContext(ctx).Where("feedback_id = ?", feedbackID).First(&reportFeedback).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (d *Dao) FindFeedback(ctx context.Context,feedbackID int) error {
+	var feedback model.Feedback
+	err := d.orm.WithContext(ctx).Where("id = ?", feedbackID).First(&feedback).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
