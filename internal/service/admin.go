@@ -22,7 +22,7 @@ func FindReportFeedback(feedbackID int) error {
 	return d.FindReportFeedback(ctx, feedbackID)
 }
 
-func FindFeedback(feedbackID int) error {
+func FindFeedback(feedbackID int) (model.Feedback,error) {
 	return d.FindFeedback(ctx, feedbackID)
 }
 
