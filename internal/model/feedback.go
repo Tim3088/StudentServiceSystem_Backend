@@ -17,6 +17,7 @@ type Feedback struct {
 	Images     string    `json:"images"` // 修改为 string 类型
 	Reply      string    `json:"reply"`
 	Evaluation string    `json:"evaluation"`
+	ReceiverID int       `json:"receiver_id"`
 }
 
 // 将 Images 字段序列化为 JSON 字符串

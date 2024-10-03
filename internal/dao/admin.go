@@ -49,3 +49,7 @@ func (d *Dao) FindFeedback(ctx context.Context,feedbackID int) error {
 	}
 	return nil
 }
+
+func (d *Dao) AcceptFeedback(ctx context.Context,feedbackID int,userID int) error {
+	return d.orm.Model(&model.Feedback{}).Where("id = ?", feedbackID).Update("receiver_id", userID).Error
+}

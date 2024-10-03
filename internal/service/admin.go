@@ -25,3 +25,7 @@ func FindReportFeedback(feedbackID int) error {
 func FindFeedback(feedbackID int) error {
 	return d.FindFeedback(ctx, feedbackID)
 }
+
+func AcceptFeedback(feedbackID int, userID int) error {
+	return d.AcceptFeedback(ctx, feedbackID, userID)
+}
