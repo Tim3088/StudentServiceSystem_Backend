@@ -18,7 +18,7 @@ func MarkFeedback(c *gin.Context) {
 		utils.JsonFail(c, 200501, "参数错误")
 		return
 	}
-	err:=service.FindFeedback(data.FeedbackID)
+	_,err:=service.FindFeedback(data.FeedbackID)
 	if err != nil {
 		utils.JsonFail(c, 200503, "反馈不存在")
 		return

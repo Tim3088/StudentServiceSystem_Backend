@@ -36,6 +36,11 @@ func (d *Dao) GetFeedbacks(ctx context.Context, userID int) ([]map[string]interf
 			}
 			imageUrls = append(imageUrls, url)
 		}
+		var status int = 0
+		//如果ReceiverID不为0，说明已被接收
+		if feedback.ReceiverID != 0 {
+			status = 1
+		}
 		res = append(res, map[string]interface{}{
 			"id":         feedback.ID,
 			"title":      feedback.Title,
@@ -46,6 +51,7 @@ func (d *Dao) GetFeedbacks(ctx context.Context, userID int) ([]map[string]interf
 			"images":     imageUrls,
 			"reply":      feedback.Reply,
 			"evaluation": feedback.Evaluation,
+			"status":     status,
 		})
 	}
 	return res, nil

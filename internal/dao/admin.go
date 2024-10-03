@@ -41,13 +41,13 @@ func (d *Dao) FindReportFeedback(ctx context.Context,feedbackID int) error {
 	return nil
 }
 
-func (d *Dao) FindFeedback(ctx context.Context,feedbackID int) error {
+func (d *Dao) FindFeedback(ctx context.Context,feedbackID int) (model.Feedback,error) {
 	var feedback model.Feedback
 	err := d.orm.WithContext(ctx).Where("id = ?", feedbackID).First(&feedback).Error
 	if err != nil {
-		return err
+		return model.Feedback{},err
 	}
-	return nil
+	return feedback,nil
 }
 
 func (d *Dao) AcceptFeedback(ctx context.Context,feedbackID int,userID int) error {
