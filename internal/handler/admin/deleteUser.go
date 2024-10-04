@@ -9,12 +9,12 @@ import (
 )
 
 type DeleteUserRequest struct {
-	Username string `json:"username" binding:"required"`
+	Username string `form:"username" binding:"required"`
 }
 
 func DeleteUser(c *gin.Context) {
 	var req DeleteUserRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
+	if err := c.ShouldBindQuery(&req); err != nil {
 		utils.JsonFail(c, 200501, "参数错误")
 		return
 	}
