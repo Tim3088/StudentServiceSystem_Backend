@@ -16,7 +16,6 @@ func GetUser(c *gin.Context) {
 	info, err := service.GetUserByUserID(c.GetInt("user_id"))
 	if err != nil {
 		zap.L().Error("获取管理员信息失败", zap.Error(err))
-		utils.JsonFail(c, 200512, "获取管理员信息失败")
 		return
 	}
 	if info.UserType != 3 {
