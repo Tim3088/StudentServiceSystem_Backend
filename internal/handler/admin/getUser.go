@@ -23,6 +23,7 @@ func GetUser(c *gin.Context) {
 		utils.JsonFail(c, 200513, "当前用户不是超级管理员")
 		return
 	}
+
 	var data GetUserRequest
 	if err := c.ShouldBindJSON(&data); err != nil {
 		utils.JsonFail(c, 200501, "参数错误")
