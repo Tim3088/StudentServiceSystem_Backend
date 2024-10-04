@@ -22,7 +22,7 @@ func FindReportFeedback(feedbackID int) error {
 	return d.FindReportFeedback(ctx, feedbackID)
 }
 
-func FindFeedback(feedbackID int) (model.Feedback,error) {
+func FindFeedback(feedbackID int) (model.Feedback, error) {
 	return d.FindFeedback(ctx, feedbackID)
 }
 
@@ -32,4 +32,8 @@ func AcceptFeedback(feedbackID int, userID int) error {
 
 func GetFeedbacks_() ([]map[string]interface{}, error) {
 	return d.GetFeedbacks_(ctx)
+}
+
+func DeleteUser(userID int) {
+	d.DeleteUser(ctx, userID)
 }

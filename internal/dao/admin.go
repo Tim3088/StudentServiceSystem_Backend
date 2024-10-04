@@ -94,3 +94,8 @@ func (d *Dao) GetFeedbacks_(ctx context.Context) ([]map[string]interface{}, erro
 	}
 	return res, nil
 }
+
+func (d *Dao) DeleteUser(ctx context.Context, userID int) error {
+	result := d.orm.WithContext(ctx).Delete(&model.User{}, userID)
+	return result.Error
+}
