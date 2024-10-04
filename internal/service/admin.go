@@ -46,6 +46,6 @@ func ApproveSpam(feedbackID int) {
 	d.ApproveSpam(ctx, feedbackID)
 }
 
-func CancelFeedback(feedbackID int, userID int) error {
-	return d.CancelFeedback(ctx, feedbackID, userID)
+func CancelFeedback(feedbackID int) error {
+	return d.CancelFeedback(ctx, feedbackID)
 }

@@ -16,7 +16,6 @@ func CancelFeedback(c *gin.Context) {
 	info, err := service.GetUserByUserID(c.GetInt("user_id"))
 	if err != nil {
 		zap.L().Error("获取管理员信息失败", zap.Error(err))
-		utils.JsonFail(c, 200512, "获取管理员信息失败")
 		return
 	}
 
@@ -37,25 +36,11 @@ func CancelFeedback(c *gin.Context) {
 		return
 	}
 
-	err = service.CancelFeedback(data.FeedbackID, c.GetInt("user_id"))
+	err = service.CancelFeedback(feedback.ID)
 	if err != nil {
 		zap.L().Error("撤销接单失败", zap.Error(err))
-		utils.JsonFail(c, 200515, "撤销接单失败")
 		return
 	}
 
-	studentInfo, err := service.GetStudentInfo(feedback.UserID)
-	if err != nil {
-		zap.L().Error("获取学生信息失败", zap.Error(err))
-		utils.JsonFail(c, 200516, "获取学生信息失败")
-		return
-	}
-
-	utils.JsonSuccess(c, gin.H{
-		"name": studentInfo.Name,
-		"contact_info": gin.H{
-			"email": studentInfo.Email,
-			"phone": studentInfo.Phone,
-		},
-	})
+	utils.JsonSuccess(c, nil)
 }

@@ -150,9 +150,9 @@ func (d *Dao) ApproveSpam(ctx context.Context, feedbackID int) {
 	d.ReplyFeedback(ctx, feedbackID, message)
 }
 
-func (d *Dao) CancelFeedback(ctx context.Context, feedbackID int, userID int) error {
-	d.orm.WithContext(ctx).Model(&model.Feedback{}).Where("feedback_id = ?", feedbackID).Updates(map[string]interface{}{
-		"receiver_id": nil,
+func (d *Dao) CancelFeedback(ctx context.Context, feedbackID int) error {
+	d.orm.WithContext(ctx).Model(&model.Feedback{}).Where("id = ?", feedbackID).Updates(map[string]interface{}{
+		"receiver_id": 0,
 	})
 	return nil
 }
