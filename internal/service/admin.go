@@ -42,6 +42,10 @@ func GetSpamFeedbacks() ([]map[string]interface{}, error) {
 	return d.GetSpamFeedbacks(ctx)
 }
 
-func ApproveSpam(feedbackID string) {
+func ApproveSpam(feedbackID int) {
 	d.ApproveSpam(ctx, feedbackID)
+}
+
+func CancelFeedback(feedbackID int, userID int) error {
+	return d.CancelFeedback(ctx, feedbackID, userID)
 }
