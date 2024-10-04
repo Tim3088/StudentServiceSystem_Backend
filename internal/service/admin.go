@@ -41,3 +41,7 @@ func DeleteUser(userID int) {
 func GetSpamFeedbacks() ([]map[string]interface{}, error) {
 	return d.GetSpamFeedbacks(ctx)
 }
+
+func ApproveSpam(feedbackID string) {
+	d.ApproveSpam(ctx, feedbackID)
+}
