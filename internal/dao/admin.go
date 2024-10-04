@@ -99,3 +99,38 @@ func (d *Dao) DeleteUser(ctx context.Context, userID int) error {
 	result := d.orm.WithContext(ctx).Delete(&model.User{}, userID)
 	return result.Error
 }
+
+func (d *Dao) GetSpamFeedbacks(ctx context.Context) ([]map[string]interface{}, error) {
+	var feedbackList []int
+	err := d.orm.WithContext(ctx).Model(&model.ReportFeedback{}).Pluck("feedback_id", &feedbackList).Error
+	if err != nil {
+		return nil, err
+	}
+	var res []map[string]interface{}
+	for _, feedbackID := range feedbackList {
+		feedback, err := d.FindFeedback(ctx, feedbackID)
+		if err != nil {
+			return nil, err
+		}
+		images, err := feedback.GetImages()
+		if err != nil {
+			return nil, err
+		}
+		var imageUrls []string
+		for _, imageName := range images {
+			url, err := minIO.GetFile(imageName)
+			if err != nil {
+				zap.L().Error("Failed to get file.", zap.Error(err))
+				return nil, err
+			}
+			imageUrls = append(imageUrls, url)
+		}
+		res = append(res, map[string]interface{}{
+			"id":          feedback.ID,
+			"title":       feedback.Title,
+			"content":     feedback.Content,
+			"images":      imageUrls,
+		})
+	}
+	return res, nil
+}
