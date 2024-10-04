@@ -13,29 +13,24 @@ func ApproveSpam(c *gin.Context) {
 	info, err := service.GetUserByUserID(c.GetInt("user_id"))
 	if err != nil {
 		zap.L().Error("获取管理员信息失败", zap.Error(err))
-		utils.JsonFail(c, 200512, "获取管理员信息失败")
 		return
 	}
 	if info.UserType != 3 {
-		utils.JsonFail(c, 200512, "当前用户不是超级管理员")
+		utils.JsonFail(c, 200513, "当前用户不是超级管理员")
 		return
 	}
 	var request struct {
-		FeedbackID int  `json:"feedback_id" binding:"required"`
-		Approval   bool `json:"approval" binding:"required"`
+		FeedbackID int `json:"id" binding:"required"`
+		Approval   int `json:"approval" binding:"required"`
 	}
 	if err := c.ShouldBindJSON(&request); err != nil {
-		utils.JsonFail(c, 200513, "请求参数错误")
+		utils.JsonFail(c, 200501, "参数错误")
 		return
 	}
-	if !request.Approval {
-		utils.JsonSuccess(c, gin.H{
-			"message": "审核已拒绝",
-		})
+	if request.Approval == 2 {
+		utils.JsonSuccess(c, nil)
 		return
 	}
 	service.ApproveSpam(request.FeedbackID)
-	utils.JsonSuccess(c, gin.H{
-		"message": "反馈已成功审核标记为垃圾反馈",
-	})
+	utils.JsonSuccess(c, nil)
 }
