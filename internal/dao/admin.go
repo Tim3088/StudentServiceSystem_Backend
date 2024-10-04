@@ -136,21 +136,29 @@ func (d *Dao) GetSpamFeedbacks(ctx context.Context) ([]map[string]interface{}, e
 	return res, nil
 }
 
-func (d *Dao) UpdateReceiverID(ctx context.Context, feedbackID string, receiverID int) {
+func (d *Dao) UpdateReceiverID(ctx context.Context, feedbackID int, receiverID int) {
 	// 使用 Updates 方法一次性更新多个字段
 	d.orm.WithContext(ctx).Model(&model.Feedback{}).Where("feedback_id = ?", feedbackID).Updates(map[string]interface{}{
 		"receiver_id": receiverID,
 	})
 }
 
-func (d *Dao) SendReplyToUser(ctx context.Context, feedbackID, message string) {
+func (d *Dao) SendReplyToUser(ctx context.Context, feedbackID int, message string) {
 	// 实现发送回复消息
 }
 
-func (d *Dao) ApproveSpam(ctx context.Context, feedbackID string) {
+func (d *Dao) ApproveSpam(ctx context.Context, feedbackID int) {
 	// 第一步
 	d.UpdateReceiverID(ctx, feedbackID, -1)
 	// 第二步
 	message := "请您在提交反馈时确保内容的有效性和准确性，感谢您的理解和配合。如有异议，请重新反馈。"
 	d.SendReplyToUser(ctx, feedbackID, message)
+}
+
+func (d *Dao) CancelFeedback(ctx context.Context, feedbackID int, userID int) error {
+	// 使用 Updates 方法一次性更新多个字段
+	d.orm.WithContext(ctx).Model(&model.Feedback{}).Where("feedback_id = ?", feedbackID).Updates(map[string]interface{}{
+		"receiver_id": nil,
+	})
+	return nil
 }
