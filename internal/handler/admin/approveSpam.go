@@ -21,8 +21,8 @@ func ApproveSpam(c *gin.Context) {
 		return
 	}
 	var request struct {
-		FeedbackID string `json:"feedback_id" binding:"required"`
-		Approval   bool   `json:"approval" binding:"required"`
+		FeedbackID int  `json:"feedback_id" binding:"required"`
+		Approval   bool `json:"approval" binding:"required"`
 	}
 	if err := c.ShouldBindJSON(&request); err != nil {
 		utils.JsonFail(c, 200513, "请求参数错误")
