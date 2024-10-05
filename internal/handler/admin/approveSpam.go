@@ -31,6 +31,16 @@ func ApproveSpam(c *gin.Context) {
 		utils.JsonSuccess(c, nil)
 		return
 	}
-	service.ApproveSpam(request.FeedbackID)
+	feedback, err := service.FindFeedback(request.FeedbackID)
+	if err != nil {
+		utils.JsonFail(c, 200503, "反馈不存在")
+		return
+	}
+	userInfo, err := service.GetStudentInfo(feedback.UserID)
+	if err != nil {
+		zap.L().Error("获取学生信息失败", zap.Error(err))
+		return
+	}
+	service.ApproveSpam(request.FeedbackID, userInfo.Email)
 	utils.JsonSuccess(c, nil)
 }

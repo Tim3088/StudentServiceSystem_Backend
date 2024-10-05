@@ -1,8 +1,15 @@
 package service
 
-import "StudentServiceSystem/internal/model"
+import (
+	"StudentServiceSystem/internal/model"
+	"StudentServiceSystem/pkg/utils"
 
-func ReplyFeedback(feedbackID int, reply string) error {
+	"go.uber.org/zap"
+)
+
+func ReplyFeedback(feedbackID int, reply string,email string) error {
+	mail, _ := utils.UGoemail.SendMail(ctx, email, "", "反馈处理结果", "您的反馈已经处理完毕，请及时查看")
+	zap.L().Info("邮件发送结果", zap.Int("result", mail))
 	return d.ReplyFeedback(ctx, feedbackID, reply)
 }
 
@@ -42,7 +49,9 @@ func GetSpamFeedbacks() ([]map[string]interface{}, error) {
 	return d.GetSpamFeedbacks(ctx)
 }
 
-func ApproveSpam(feedbackID int) {
+func ApproveSpam(feedbackID int, email string) {
+	mail, _ := utils.UGoemail.SendMail(ctx, email, "", "反馈处理结果", "您的反馈已经处理完毕，请及时查看")
+	zap.L().Info("邮件发送结果", zap.Int("result", mail))
 	d.ApproveSpam(ctx, feedbackID)
 }
 
