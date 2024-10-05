@@ -1,9 +1,8 @@
 package global
 
 import (
-	"log"
-
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 var Config = viper.New()
@@ -15,6 +14,6 @@ func init() {
 	Config.WatchConfig()
 	err := Config.ReadInConfig()
 	if err != nil {
-		log.Fatal("Config not found: ", err)
+		zap.L().Fatal("Read config failed", zap.Error(err))
 	}
 }
